@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
@@ -9,7 +9,7 @@ import { FilterItem } from './item';
 
 export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+
   const [active, setActive] = useState('');
   const [openSelect, setOpenSelect] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -28,13 +28,12 @@ export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
   useEffect(() => {
     list.forEach((listItem: ListItem) => {
       if (
-        ('path' in listItem && pathname === listItem.path) ||
-        ('slug' in listItem && searchParams.get('sort') === listItem.slug)
+        ('path' in listItem && pathname === listItem.path) 
       ) {
         setActive(listItem.title);
       }
     });
-  }, [pathname, list, searchParams]);
+  }, [pathname, list]);
 
   return (
     <div className="relative" ref={ref}>

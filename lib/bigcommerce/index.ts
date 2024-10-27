@@ -1,7 +1,7 @@
 import { isVercelCommerceError } from "../type-guards";
 import { notFound } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
-import { BIGCOMMERCE_GRAPHQL_API_ENDPOINT } from "./constants";
+
 
 import {
   bigCommerceToVercelCart,
@@ -50,13 +50,6 @@ import {
 } from "../types";
 import { createClient } from "@/utils/supabase/server";
 
-const channelIdSegment =
-  parseInt(process.env.BIGCOMMERCE_CHANNEL_ID!) !== 1
-    ? `-${process.env.BIGCOMMERCE_CHANNEL_ID}`
-    : "";
-const domain = `https://store-${process.env.BIGCOMMERCE_STORE_HASH!}${channelIdSegment}`;
-const endpoint = `${domain}.${BIGCOMMERCE_GRAPHQL_API_ENDPOINT}`;
-
 type ExtractVariables<T> = T extends { variables: object }
   ? T["variables"]
   : never;
@@ -84,11 +77,11 @@ export async function bigCommerceFetch<T>({
   cache?: RequestCache;
 }): Promise<{ status: number; body: T } | never> {
   try {
-    const result = await fetch(endpoint, {
+    const result = await fetch('', {
       method: "POST",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${process.env.BIGCOMMERCE_CUSTOMER_IMPERSONATION_TOKEN}`,
+        Authorization: `Bearer ${('')}`,
         "Content-Type": "application/json",
         ...headers,
       },
@@ -777,7 +770,7 @@ export async function getCollectionProducts({
       entityId,
       first: 10,
       hideOutOfStock: false,
-      sortBy: sortBy === "RELEVANCE" ? "DEFAULT" : sortBy,
+      sortBy: sortBy,
     },
   });
 

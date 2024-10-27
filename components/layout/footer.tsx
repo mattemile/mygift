@@ -23,20 +23,8 @@ export default async function Footer() {
             <span className="uppercase">{SITE_NAME}</span>
           </Link>
         </div>
-        <Suspense
-          fallback={
-            <div className="flex h-[188px] w-[200px] flex-col gap-2">
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-            </div>
-          }
-        >
+   
           <FooterMenu menu={menu} />
-        </Suspense>
         <div className="md:ml-auto">
           <a aria-label="Github Repository" href="https://github.com/bigcommerce/nextjs-commerce">
             <GitHubIcon className="h-6" />

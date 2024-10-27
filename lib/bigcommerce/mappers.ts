@@ -1,4 +1,4 @@
-import { BigCommerceSortKeys, VercelSortKeys, vercelToBigCommerceSortKeys } from '../constants';
+
 import {
   BigCommerceCart,
   BigCommerceCheckout,
@@ -124,7 +124,7 @@ const bigCommerceToVercelProduct = (product: BigCommerceProduct): VercelProduct 
       title: product.seo.pageTitle || product.name,
       description: product.seo.metaDescription || ''
     },
-    tags: [product.seo.metaKeywords] || [],
+    tags: [],
     updatedAt: product.createdAt.utc.toString()
   };
 };
@@ -295,7 +295,7 @@ export {
 export const vercelToBigCommerceSorting = (
   isReversed: boolean,
   sortKey?: string
-): keyof typeof BigCommerceSortKeys | null => {
+): keyof typeof String | null => {
   const VercelSorting: Record<string, string> = {
     RELEVANCE: 'RELEVANCE',
     BEST_SELLING: 'BEST_SELLING',
@@ -307,13 +307,7 @@ export const vercelToBigCommerceSorting = (
     return null;
   }
 
-  if (sortKey === VercelSortKeys.PRICE) {
-    return isReversed
-      ? vercelToBigCommerceSortKeys.PRICE_ON_REVERSE
-      : vercelToBigCommerceSortKeys.PRICE;
-  }
-
-  return vercelToBigCommerceSortKeys[sortKey as keyof typeof VercelSortKeys];
+  return null;
 };
 
 export const bigCommerceToVercelPageContent = (page: BigCommercePage): VercelPage => {

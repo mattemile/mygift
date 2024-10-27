@@ -24,7 +24,7 @@ export async function generateMetadata({
   if (!product) return notFound();
 
   const { url, width, height, altText: alt } = product.featuredImage || {};
-  const indexable = !product.tags.includes(HIDDEN_PRODUCT_TAG);
+  const indexable = !product.tags.includes('');
 
   return {
     title: product.seo.title || product.title,
@@ -97,12 +97,8 @@ export default async function ProductPage({ params }: { params: { handle: string
             <ProductDescription product={product} />
           </div>
         </div>
-        <Suspense>
-        </Suspense>
       </div>
-      <Suspense>
         <Footer />
-      </Suspense>
     </>
   );
 }

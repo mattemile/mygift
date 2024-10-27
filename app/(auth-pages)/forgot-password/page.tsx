@@ -1,3 +1,4 @@
+'use client';
 import { forgotPasswordAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
@@ -6,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SmtpMessage } from "../smtp-message";
 
-export default function ForgotPassword({
+export default async function ForgotPassword({
   searchParams,
 }: {
   searchParams: Message;

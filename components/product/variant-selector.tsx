@@ -6,7 +6,7 @@ import {
   VercelProductVariant as ProductVariant
 } from '../../lib/types';
 import { createUrl } from '../../lib/utils';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 type Combination = {
   id: string;
@@ -23,7 +23,7 @@ export function VariantSelector({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = null;
   const hasNoOptionsOrJustOneOption =
     !options.length || (options.length === 1 && options[0]?.values.length === 1);
 
@@ -49,7 +49,7 @@ export function VariantSelector({
           const optionNameLowerCase = option.name.toLowerCase();
 
           // Base option params on current params so we can preserve any other param state in the url.
-          const optionSearchParams = new URLSearchParams(searchParams.toString());
+          const optionSearchParams = new URLSearchParams('');
 
           // Update the option params using the current option to reflect how the url *would* change,
           // if the option was clicked.
@@ -77,7 +77,7 @@ export function VariantSelector({
           );
 
           // The option is active if it's in the url params.
-          const isActive = searchParams.get(optionNameLowerCase) === value;
+          const isActive = false;
 
           return (
             <button

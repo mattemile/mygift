@@ -44,9 +44,7 @@ export default async function Navbar() {
           <Search />
         </div>
         <div className="flex justify-end md:w-1/3">
-          <Suspense fallback={<HeaderAuth />}>
             <HeaderAuth />
-          </Suspense>
         </div>
       </div>
     </nav>

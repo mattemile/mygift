@@ -5,20 +5,20 @@ import { GridTileImage } from '../grid/tile';
 import { createUrl } from '../../lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 export function Gallery({ images }: { images: { src: string; altText: string }[] }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const imageSearchParam = searchParams.get('image');
+  const searchParams = null;
+  const imageSearchParam = null;
   const imageIndex = imageSearchParam ? parseInt(imageSearchParam) : 0;
 
-  const nextSearchParams = new URLSearchParams(searchParams.toString());
+  const nextSearchParams = new URLSearchParams('');
   const nextImageIndex = imageIndex + 1 < images.length ? imageIndex + 1 : 0;
   nextSearchParams.set('image', nextImageIndex.toString());
   const nextUrl = createUrl(pathname, nextSearchParams);
 
-  const previousSearchParams = new URLSearchParams(searchParams.toString());
+  const previousSearchParams = new URLSearchParams('');
   const previousImageIndex = imageIndex === 0 ? images.length - 1 : imageIndex - 1;
   previousSearchParams.set('image', previousImageIndex.toString());
   const previousUrl = createUrl(pathname, previousSearchParams);
@@ -69,7 +69,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
         <ul className="my-12 flex items-center justify-center gap-2 overflow-auto py-1 lg:mb-0">
           {images.map((image, index) => {
             const isActive = index === imageIndex;
-            const imageSearchParams = new URLSearchParams(searchParams.toString());
+            const imageSearchParams = new URLSearchParams('');
 
             imageSearchParams.set('image', index.toString());
 

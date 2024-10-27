@@ -18,12 +18,8 @@ export default async function Index() {
   return (
     <>
       <ThreeItemGrid />
-      <Suspense>
         <Carousel />
-        <Suspense>
           <Footer />
-        </Suspense>
-      </Suspense>
     </>
   );
 }
