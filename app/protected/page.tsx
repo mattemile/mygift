@@ -14,6 +14,12 @@ export default async function ProtectedPage() {
     return redirect("/sign-in");
   }
 
+  let { data: gift, error } = await supabase
+  .from('gift')
+  .select('*')
+
+console.log(gift)
+
   return (
     <div className="flex-1 w-full flex flex-col gap-12">
       <div className="w-full">
