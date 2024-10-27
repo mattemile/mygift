@@ -1,6 +1,6 @@
-import Grid from 'components/grid';
-import { GridTileImage } from 'components/grid/tile';
-import { VercelProduct as Product } from 'lib/bigcommerce/types';
+import Grid from '../../components/grid';
+import { GridTileImage } from '../../components/grid/tile';
+import { VercelProduct as Product } from '../../lib/types';
 import Link from 'next/link';
 
 export default function ProductGridItems({ products }: { products: Product[] }) {
