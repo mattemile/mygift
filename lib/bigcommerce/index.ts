@@ -946,8 +946,6 @@ let prod!: BigCommerceProduct;
 
 let nodesA: Edge<BigCommerceProduct>[] = [];
 let singleNode: Edge<BigCommerceProduct>;
-console.log("_listGift")
-console.log(_listGift[0])
   prod = {
     id: 1,
     entityId: 1,
@@ -1002,11 +1000,11 @@ console.log(_listGift[0])
       },
       priceRange: {
         min: {
-          value: 1,
+          value: _listGift[0].price,
           currencyCode: "EUR",
         },
         max: {
-          value: 1,
+          value: _listGift[0].price,
           currencyCode: "EUR",
         },
       },
@@ -1096,6 +1094,7 @@ export async function getProductRecommendations(
   return bigCommerceToVercelProducts(productList);
 }
 
+//search
 export async function getProducts({
   query,
   reverse,
@@ -1105,23 +1104,153 @@ export async function getProducts({
   reverse?: boolean;
   sortKey?: string;
 }): Promise<VercelProduct[]> {
-  const sort = vercelToBigCommerceSorting(reverse ?? false, sortKey);
-  const res = await bigCommerceFetch<BigCommerceSearchProductsOperation>({
-    query: "",
-    variables: {
-      filters: {
-        searchTerm: query || "",
-      },
-      sort,
-    },
-  });
+  const supabase = createClient();
+  const todos = await supabase
+  .from("gift")
+  .select("*")
+  .eq("is_active", true)
+  .textSearch("description", query!.toString())
+  .returns<SupabaseProduct[]>()
+  .order("id");
 
-  const productList =
-    res.body.data.site.search.searchProducts.products.edges.map(
-      (item) => item.node
-    );
+let _listGift: SupabaseProduct[] = [];
+_listGift = todos.data!;
+console.log(_listGift)
+let prod!: BigCommerceProduct;
+let prod2!: BigCommerceProduct;
+let prod3!: BigCommerceProduct;
+
+let nodesA: Edge<BigCommerceProduct>[] = [];
+let singleNode: Edge<BigCommerceProduct>;
+
+_listGift.forEach((element, i) => {
+  prod = {
+    id: i,
+    entityId: i,
+    sku: i.toString(),
+    upc: i.toString(),
+    name: element.name,
+    brand: {
+      name: element.name,
+    },
+    plainTextDescription: element.description,
+    description: element.description,
+    availabilityV2: {
+      status: "1",
+      description: "Nuovo",
+    },
+    defaultImage: {
+      url: element.defaultimage,
+      altText: "alttext",
+    },
+    images: {
+      edges: [
+        {
+          node: {
+            url: element.image1,
+            altText: "alttext",
+          },
+        },
+        {
+          node: {
+            url: element.image2,
+            altText: "alttext",
+          },
+        },
+        {
+          node: {
+            url: element.image3,
+            altText: "alttext",
+          },
+        },
+      ],
+    },
+    seo: {
+      pageTitle: "",
+      metaDescription: "",
+      metaKeywords: "",
+    },
+    path: "product/" + element.pathname,
+    prices: {
+      price: {
+        value: element.price,
+        currencyCode: "EUR",
+      },
+      priceRange: {
+        min: {
+          value: element.price,
+          currencyCode: "EUR",
+        },
+        max: {
+          value: element.price,
+          currencyCode: "EUR",
+        },
+      },
+    },
+    createdAt: {
+      utc: new Date(),
+    },
+    variants: {
+      edges: [],
+    },
+    productOptions: {
+      edges: [],
+    },
+  };
+  singleNode = {
+    node: prod,
+  };
+  nodesA.push(singleNode);
+});
+
+
+  const conn: Connection<BigCommerceProduct> = {
+    edges:nodesA
+  };
+
+  const option: BigCommerceFeaturedProductsOperation = {
+    data: {
+      site: {
+        featuredProducts: conn,
+      },
+    },
+    variables: {
+      first: 1,
+    },
+  };
+
+  const res: BigCommerceMain = {
+    status: "",
+    body: option,
+  };
+
+  // const sort = vercelToBigCommerceSorting(reverse ?? false, sortKey);
+  // const res = await bigCommerceFetch<BigCommerceSearchProductsOperation>({
+  //   query: "",
+  //   variables: {
+  //     filters: {
+  //       searchTerm: query || "",
+  //     },
+  //     sort,
+  //   },
+  // });
+
+  if (!res.body.data.site.featuredProducts) {
+    console.log(`No collection found for`);
+    return [];
+  }
+  const productList = res.body.data.site.featuredProducts.edges.map(
+    (item) => item.node
+  );
 
   return bigCommerceToVercelProducts(productList);
+
+  // const productList =
+  //   res.body.data.site.search.searchProducts.products.edges.map(
+  //     (item) => item.node
+  //   );
+
+  // return bigCommerceToVercelProducts(productList);
 }
 
 // This is called from `app/api/revalidate.ts` so providers can control revalidation logic.

@@ -42,8 +42,8 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
           </SubmitButton>
           <FormMessage message={searchParams} />
         </div>
+        <SmtpMessage />
       </form>
-      <SmtpMessage />
     </>
   );
 }
