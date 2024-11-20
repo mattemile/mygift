@@ -9,12 +9,11 @@ export default function Search() {
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     const val = e.target as HTMLFormElement;
     const search = val.search as HTMLInputElement;
-    const newParams = new URLSearchParams("");
-
-    if(newParams.size == 0) return;
+    const newParams = new URLSearchParams('');
+    
+    if(search.value == '' || search.value == null) return;
     if (search.value) {
       newParams.set("q", search.value);
     } else {
