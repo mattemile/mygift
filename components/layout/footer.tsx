@@ -33,10 +33,7 @@ export default async function Footer() {
             {copyrightName.length && !copyrightName.endsWith('.') ? '.' : ''} All rights reserved.
           </p>
           <p className="md:ml-auto">
-              Crafted by Matteo - Creative Commons
-          </p>
-          <p>
-            Vers. 1.0.1
+              Crafted by Matteo - Vers. 1.0.1 - Creative Commons
           </p>
         </div>
       </div>
