@@ -35,6 +35,9 @@ export default async function Footer() {
           <p className="md:ml-auto">
               Crafted by Matteo - Creative Commons
           </p>
+          <p>
+            Vers. 1.0.1
+          </p>
         </div>
       </div>
     </footer>
